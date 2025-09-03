@@ -39,11 +39,15 @@ function playRound(humanChoice, computerChoice){
 // Display the running score, and announce a winner of the game once one player reaches 5 points
 function displayResults(result, humanChoice, computerChoice){
   const resultDisplay = document.querySelector(".result-display")
+  resultDisplay.innerHTML = '';
   const roundResults = document.createElement('h3')
-  resultDisplay.classList.add("round-results")
+  // resultDisplay.classList.add("round-results")
+  const currentScore = document.createElement('h2')
+  //  score.classList.add('score')
+
   // display winner for each round
   if(result === "IT's A TIE"){
-    roundResults.textContent = `It's a Tie! You both choose ${humanChoice}`
+    roundResults.textContent = `It's a Tie! You both choose ${humanChoice}`     
   }
   else if (result === 'COMPUTER WINS'){
     roundResults.textContent = `YOU LOOSE, ${computerChoice} beats ${humanChoice}`
@@ -51,25 +55,14 @@ function displayResults(result, humanChoice, computerChoice){
   }
   else{
     roundResults.textContent = `🎉YOU WIN! ${humanChoice} beats ${computerChoice}`
-    humanScore++;
+    humanScore++;  
   }
+
+  currentScore.textContent =`YOU: ${humanScore} | Computer : ${computerScore}` 
   // update
-  resultDisplay.appendChild(roundResults)
-
-  // display score for the game when one player reaches 5 points
-  const score = document.createElement('h1')
-  score.classList.add('score')
-
-  if (humanScore === 5 || computerScore === 5){
-    if(humanScore > computerScore){
-      score.textContent = `🎉 Congratulations! You WON THE GAME`
-    }
-    else{
-      score.textContent = `YOU LOOSE`
-    }
-  } 
-  // update 
-  resultDisplay.appendChild(score)  
+  resultDisplay.appendChild(roundResults); 
+  resultDisplay.appendChild(currentScore);
+  
 }
 
 // playGame triggers the game to start once a player clicks either of the buttons
