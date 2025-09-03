@@ -40,10 +40,9 @@ function playRound(humanChoice, computerChoice){
 function displayResults(result, humanChoice, computerChoice){
   const resultDisplay = document.querySelector(".result-display")
   resultDisplay.innerHTML = '';
-  const roundResults = document.createElement('h3')
-  // resultDisplay.classList.add("round-results")
-  const currentScore = document.createElement('h2')
-  //  score.classList.add('score')
+  const roundResults = document.createElement('h3');
+  const currentScore = document.createElement('h2');
+  const finalScore = document.createElement('h1');
 
   // display winner for each round
   if(result === "IT's A TIE"){
@@ -62,6 +61,18 @@ function displayResults(result, humanChoice, computerChoice){
   // update
   resultDisplay.appendChild(roundResults); 
   resultDisplay.appendChild(currentScore);
+
+  // when any of the players reach 5 points, announce winner
+  if(humanScore === 5 || computerScore === 5){
+    if(humanScore > computerScore){
+     finalScore.innerText = `🏆 CONGRATULATIONS! YOU WIN` 
+    }else{
+      finalScore.innerText = `COMPUTER WINS` 
+    }
+    resultDisplay.appendChild(finalScore)
+    disableBtns();
+    document.querySelector(".restartBtn").style.display = 'block'; //display restart btn when player score get to 5
+  }
   
 }
 
@@ -69,7 +80,7 @@ function displayResults(result, humanChoice, computerChoice){
 // It takes value of the clicked button and compares it to the computer humanChoice
 // then announces the winner of that round and display the score once one of the scores reaches 5 points
 function playGame(){
-    let btns = document.querySelectorAll("button");
+    let btns = document.querySelectorAll(".container button");
 
   btns.forEach(btn =>{
     btn.addEventListener("click", function(){
@@ -83,3 +94,35 @@ function playGame(){
 }
 
 playGame();
+
+// disable the rock paper scissors buttons when a player score is 5 points
+function disableBtns (){
+  let btns = document.querySelectorAll('.container button');
+  btns.forEach(btn =>{
+    btn.disabled = true;
+  })
+}
+
+// function to restart the game when player final score is 5
+function restartGame(){
+  // reinitialize scores
+  humanScore = 0;
+  computerScore = 0;
+  
+  // clear the results display
+  const resultDisplay = document.querySelector(".result-display")
+  resultDisplay.innerHTML = ''; 
+
+  // reenable buttons and disable restart
+  let btns = document.querySelectorAll('.container button');
+  btns.forEach(btn =>{
+      btn.disabled = false;
+  })
+
+  document.querySelector('.restartBtn').style.display = 'none';
+}
+restartGame();
+
+// attach restart game to restart button
+const restartBtn = document.querySelector(".restartBtn")
+restartBtn.addEventListener("click", restartGame);
